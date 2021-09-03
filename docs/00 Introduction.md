@@ -15,3 +15,14 @@
 - DOUBLE = 8 byte IEEE-754 double precision floating point value in network byte order (sign bit in low memory).
 - KB = A kilobyte or 1024 bytes.
 - GB = A Gigabyte or 1,073,741,824 bytes. 
+
+### Strings and UTF-8 
+AMF 0使用（未修改的）UTF-8对字符串进行编码。UTF-8是8位Unicode转换格式的缩写。UTF-8字符串前面通常有一个字节长度的头，后面是一系列可变长度（1到4个八位字节）编码的Unicode码点。根据格式和数据类型，AMF可以使用稍微修改的ByTeleLength报头。下文将明确定义这些变体，并在整个文件中提及。
+
+在ABNF语法中，[RFC3629]对UTF-8的描述如下：
+- UTF8-char = UTF8-1 | UTF8-2 | UTF8-3 | UTF8-4
+- UTF8-1 = %x00-7F
+- UTF8-2 = %xC2-DF UTF8-tail
+- UTF8-3 = %xE0 %xA0-BF UTF8-tail | %xE1-EC 2(UTF8-tail) | %xED %x80-9F UTF8-tail | %xEE-EF 2(UTF8-tail)
+- UTF8-4 = %xF0 %x90-BF 2(UTF8-tail) | %xF1-F3 3(UTF8-tail) | %xF4 %x80-8F 2(UTF8-tail)
+- UTF8-tail = %x80-BF 
